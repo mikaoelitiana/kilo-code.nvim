@@ -17,7 +17,7 @@ describe("config", function()
       assert.equals(80, opts.sidebar.width)
       assert.is_true(opts.file_watcher.enabled)
       assert.is_true(opts.file_watcher.auto_reload)
-      assert.equals("kilo-code", opts.kilo_code.binary)
+      assert.equals("kilocode", opts.kilo_code.binary)
     end)
 
     it("should merge user options with defaults", function()

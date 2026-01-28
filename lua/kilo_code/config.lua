@@ -27,7 +27,7 @@ local defaults = {
 
   -- KiloCode CLI settings
   kilo_code = {
-    binary = "kilo-code", -- Binary name or path
+    binary = "kilocode", -- Binary name or path
     args = {}, -- Additional CLI arguments
     env = {}, -- Environment variables
   },
