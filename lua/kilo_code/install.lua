@@ -35,12 +35,12 @@ function M.get_install_command()
   if os_name == "Darwin" then
     -- macOS - try npm first
     if utils.is_executable("npm") then
-      return "npm install -g kilo-code"
+      return "npm install -g @kilocode/cli"
     end
   elseif os_name == "Linux" then
     -- Linux - try npm
     if utils.is_executable("npm") then
-      return "npm install -g kilo-code"
+      return "npm install -g @kilocode/cli"
     end
   end
 

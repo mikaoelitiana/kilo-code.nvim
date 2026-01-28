@@ -129,7 +129,7 @@ kilo_code.file_watcher.start()   -- Start file watcher
 If auto-installation is disabled or fails, you can manually install KiloCode CLI:
 
 ```bash
-npm install -g kilo-code
+npm install -g @kilocode/cli
 ```
 
 ### File changes not detected

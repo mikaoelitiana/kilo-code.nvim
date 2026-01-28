@@ -198,5 +198,5 @@ Check if KiloCode CLI is installed:
 
 Or install it manually:
 ```bash
-npm install -g kilo-code
+npm install -g @kilocode/cli
 ```
