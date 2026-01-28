@@ -30,7 +30,7 @@ function M.open()
   -- Create buffer if needed
   if not state.bufnr or not vim.api.nvim_buf_is_valid(state.bufnr) then
     state.bufnr = vim.api.nvim_create_buf(false, true)
-    vim.api.nvim_buf_set_option(state.bufnr, "buftype", "terminal")
+    vim.api.nvim_buf_set_option(state.bufnr, "buftype", "nofile")
     vim.api.nvim_buf_set_option(state.bufnr, "bufhidden", "hide")
     vim.api.nvim_buf_set_option(state.bufnr, "swapfile", false)
     vim.api.nvim_buf_set_option(state.bufnr, "filetype", "kilo-code")
