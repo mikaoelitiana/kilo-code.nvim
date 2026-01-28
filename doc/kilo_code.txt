@@ -153,13 +153,25 @@ file_watcher.notify_on_change ~
   Default: true
   Show notification on external changes.
 
-                                                    *kilo_code-opt-file_watcher.debounce_ms*
+                                                     *kilo_code-opt-file_watcher.debounce_ms*
 file_watcher.debounce_ms ~
   Type: number
   Default: 100
   Debounce time for file events in milliseconds.
 
-                                                    *kilo_code-opt-kilo_code*
+                                                     *kilo_code-opt-file_watcher.auto_open*
+file_watcher.auto_open ~
+  Type: boolean
+  Default: true
+  Auto-open files edited by KiloCode in a buffer.
+
+                                                     *kilo_code-opt-file_watcher.follow_mode*
+file_watcher.follow_mode ~
+  Type: string
+  Default: "vsplit"
+  How to open files: "split", "vsplit", "tab", or "current".
+
+                                                     *kilo_code-opt-kilo_code*
 kilo_code ~
   Type: table
   KiloCode CLI configuration.

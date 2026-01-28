@@ -150,18 +150,61 @@ end
 ---@param bufnr number Buffer number
 ---@param filepath string Path to the file
 function M.reload_buffer(bufnr, filepath)
-  -- Save cursor position
-  local cursor = vim.api.nvim_win_get_cursor(0)
+  -- Check if buffer is the current buffer in any window
+  local current_win = vim.api.nvim_get_current_win()
+  local target_win = nil
+
+  -- Find a window displaying this buffer
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_buf(win) == bufnr then
+      target_win = win
+      break
+    end
+  end
+
+  -- Save cursor position from the target window or current window
+  local cursor = vim.api.nvim_win_get_cursor(target_win or current_win)
 
   -- Reload buffer
   vim.api.nvim_buf_call(bufnr, function()
     vim.cmd("checktime")
   end)
 
-  -- Restore cursor position
+  -- Restore cursor position in the target window
   pcall(function()
-    vim.api.nvim_win_set_cursor(0, cursor)
+    vim.api.nvim_win_set_cursor(target_win or current_win, cursor)
   end)
+
+  -- If the file was edited by KiloCode and is not visible, auto-open it
+  local cfg = config.get().file_watcher
+  if cfg.auto_open and not target_win then
+    -- File is not open in any window, open it based on follow_mode
+    if vim.fn.bufwinid(bufnr) == -1 then
+      local cmd = "edit"
+      if cfg.follow_mode == "split" then
+        cmd = "split"
+      elseif cfg.follow_mode == "vsplit" then
+        cmd = "vsplit"
+      elseif cfg.follow_mode == "tab" then
+        cmd = "tabedit"
+      end
+
+      -- Store current window to return to it if needed
+      local prev_win = current_win
+
+      -- Open the file
+      vim.cmd(cmd .. " " .. vim.fn.fnameescape(filepath))
+
+      -- Restore cursor position
+      pcall(function()
+        vim.api.nvim_win_set_cursor(0, cursor)
+      end)
+
+      -- Optionally switch back to previous window (keep focus)
+      -- Uncomment the next line if you want to keep focus on the original window
+      -- vim.api.nvim_set_current_win(prev_win)
+    end
+  end
 
   if config.get().file_watcher.notify_on_change then
     utils.notify("Reloaded: " .. vim.fn.fnamemodify(filepath, ":t"))

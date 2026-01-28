@@ -74,6 +74,8 @@ require("kilo_code").setup({
     auto_reload = true,             -- Auto-reload changed buffers
     notify_on_change = true,        -- Show notification on external changes
     debounce_ms = 100,              -- Debounce time for file events
+    auto_open = true,               -- Auto-open files edited by KiloCode
+    follow_mode = "vsplit",         -- How to open files: "split", "vsplit", "tab", or "current"
   },
 
   -- KiloCode CLI settings
