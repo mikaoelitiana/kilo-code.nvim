@@ -9,15 +9,15 @@ mkdir -p kilo-code.nvim/{lua/kilo_code,plugin,doc,spec}
 ```
 
 ### 1.2 Copy Template Files
-- [ ] Create `kilo-code-scm-1.rockspec` (rename from template)
-- [ ] Create `.busted` configuration
-- [ ] Create `.luacheckrc` for linting
-- [ ] Create `.editorconfig`
-- [ ] Create `.gitignore`
+- [x] Create `kilo-code-scm-1.rockspec` (rename from template)
+- [x] Create `.busted` configuration
+- [x] Create `.luacheckrc` for linting
+- [x] Create `.editorconfig`
+- [x] Create `.gitignore`
 
 ### 1.3 Create Initial Files
-- [ ] `README.md` - Basic documentation
-- [ ] `doc/kilo_code.txt` - Vim help documentation
+- [x] `README.md` - Basic documentation
+- [x] `doc/kilo_code.txt` - Vim help documentation
 
 **Deliverable:** Working project structure that passes `luarocks lint`
 
@@ -68,9 +68,9 @@ return M
 ```
 
 **Tests:** `spec/config_spec.lua`
-- [ ] Test default configuration
-- [ ] Test user option merging
-- [ ] Test nested table merging
+- [x] Test default configuration
+- [x] Test user option merging
+- [x] Test nested table merging
 
 ### 2.2 Utilities Module (`lua/kilo_code/utils.lua`)
 
@@ -105,8 +105,8 @@ end
 ```
 
 **Tests:** `spec/utils_spec.lua`
-- [ ] Test platform detection
-- [ ] Test debounce functionality
+- [x] Test platform detection
+- [x] Test debounce functionality
 
 **Deliverable:** Configuration and utilities modules with tests passing
 
@@ -205,10 +205,10 @@ end
 ```
 
 **Tests:** `spec/install_spec.lua`
-- [ ] Test installation detection
-- [ ] Test version retrieval
-- [ ] Test install command generation
-- [ ] Mock jobstart for install testing
+- [x] Test installation detection
+- [x] Test version retrieval
+- [x] Test install command generation
+- [x] Mock jobstart for install testing
 
 **Deliverable:** Installation module with auto-install capability
 
@@ -348,9 +348,9 @@ end
 ```
 
 **Tests:** `spec/sidebar_spec.lua`
-- [ ] Test open/close/toggle
-- [ ] Test window configuration
-- [ ] Test terminal job creation
+- [x] Test open/close/toggle
+- [x] Test window configuration
+- [x] Test terminal job creation
 
 **Deliverable:** Functional sidebar with terminal integration
 
@@ -530,10 +530,10 @@ end
 ```
 
 **Tests:** `spec/file_watcher_spec.lua`
-- [ ] Test file watching start/stop
-- [ ] Test change detection
-- [ ] Test auto-reload behavior
-- [ ] Test conflict handling (buffer modified)
+- [x] Test file watching start/stop
+- [x] Test change detection
+- [x] Test auto-reload behavior
+- [x] Test conflict handling (buffer modified)
 
 **Deliverable:** File watcher with auto-reload capability
 
@@ -684,27 +684,27 @@ vim.api.nvim_create_autocmd("BufDelete", {
 ### 7.1 README.md
 
 Sections to include:
-- [ ] Installation instructions (lazy.nvim, packer, etc.)
-- [ ] Quick start guide
-- [ ] Configuration reference
-- [ ] Commands reference
-- [ ] Troubleshooting
+- [x] Installation instructions (lazy.nvim, packer, etc.)
+- [x] Quick start guide
+- [x] Configuration reference
+- [x] Commands reference
+- [x] Troubleshooting
 
 ### 7.2 Vim Help Documentation (`doc/kilo_code.txt`)
 
 Sections:
-- [ ] Introduction
-- [ ] Installation
-- [ ] Configuration options
-- [ ] Commands
-- [ ] Lua API
-- [ ] Troubleshooting
+- [x] Introduction
+- [x] Installation
+- [x] Configuration options
+- [x] Commands
+- [x] Lua API
+- [x] Troubleshooting
 
 ### 7.3 GitHub Workflows
 
-- [ ] Lint workflow (luacheck)
-- [ ] Test workflow (busted)
-- [ ] Release workflow (luarocks)
+- [-] Lint workflow (luacheck)
+- [-] Test workflow (busted)
+- [-] Release workflow (luarocks)
 
 **Deliverable:** Complete, documented, and tested plugin
 
