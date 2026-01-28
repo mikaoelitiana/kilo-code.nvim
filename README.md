@@ -82,6 +82,20 @@ require("kilo_code").setup({
     args = {},                      -- Additional CLI arguments
     env = {},                       -- Environment variables
   },
+
+  -- Which-key integration settings
+  which_key = {
+    enabled = true,                 -- Enable which-key integration
+    prefix = "<leader>k",           -- Default keymap prefix
+    icons = {                       -- Icons for which-key menu
+      group = "󰚩 ",
+      open = "󱂬 ",
+      close = "󰘪 ",
+      toggle = "󰔡 ",
+      install = "󰇚 ",
+      check = "󰄬 ",
+    },
+  },
 })
 ```
 
@@ -94,6 +108,55 @@ require("kilo_code").setup({
 | `:KiloCodeToggle` | Toggle KiloCode sidebar |
 | `:KiloCodeInstall` | Install/Update KiloCode CLI |
 | `:KiloCodeCheck` | Check KiloCode installation status |
+
+## Which-Key Integration
+
+KiloCode.nvim automatically integrates with [which-key.nvim](https://github.com/folke/which-key.nvim) if it's installed. This provides a convenient keymap menu for all KiloCode commands.
+
+### Default Keymaps
+
+When which-key integration is enabled (default), the following keymaps are registered under the configured prefix (`<leader>k` by default):
+
+| Keymap | Command | Description |
+|--------|---------|-------------|
+| `<leader>k` | - | KiloCode group |
+| `<leader>ko` | `:KiloCodeOpen` | Open sidebar |
+| `<leader>kc` | `:KiloCodeClose` | Close sidebar |
+| `<leader>kt` | `:KiloCodeToggle` | Toggle sidebar |
+| `<leader>ki` | `:KiloCodeInstall` | Install/Update CLI |
+| `<leader>ks` | `:KiloCodeCheck` | Check status |
+
+### LazyVim Configuration
+
+For [LazyVim](https://www.lazyvim.org/) users, add the following to your configuration:
+
+```lua
+-- In your lazy.nvim plugin spec
+{
+  "Kilo-Code/kilo-code.nvim",
+  dependencies = { "folke/which-key.nvim" },
+  config = function()
+    require("kilo_code").setup({
+      which_key = {
+        enabled = true,
+        prefix = "<leader>k",  -- Change this to your preferred prefix
+      },
+    })
+  end,
+}
+```
+
+### Disabling Which-Key Integration
+
+To disable which-key integration:
+
+```lua
+require("kilo_code").setup({
+  which_key = {
+    enabled = false,
+  },
+})
+```
 
 ## Lua API
 

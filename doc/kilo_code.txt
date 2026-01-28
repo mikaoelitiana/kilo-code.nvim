@@ -11,7 +11,8 @@ CONTENTS                                              *kilo_code-contents*
 3. Configuration ......................... |kilo_code-configuration|
 4. Commands .............................. |kilo_code-commands|
 5. Lua API ............................... |kilo_code-lua-api|
-6. Troubleshooting ....................... |kilo_code-troubleshooting|
+6. Which-Key Integration ................. |kilo_code-which-key|
+7. Troubleshooting ....................... |kilo_code-troubleshooting|
 
 ==============================================================================
 1. INTRODUCTION                                       *kilo_code-introduction*
@@ -175,11 +176,41 @@ kilo_code.args ~
   Default: {}
   Additional CLI arguments.
 
-                                                    *kilo_code-opt-kilo_code.env*
+                                                     *kilo_code-opt-kilo_code.env*
 kilo_code.env ~
   Type: table
   Default: {}
   Environment variables.
+
+                                                     *kilo_code-opt-which_key*
+which_key ~
+  Type: table
+  Which-key integration configuration.
+
+                                                     *kilo_code-opt-which_key.enabled*
+which_key.enabled ~
+  Type: boolean
+  Default: true
+  Enable which-key integration.
+
+                                                     *kilo_code-opt-which_key.prefix*
+which_key.prefix ~
+  Type: string
+  Default: "<leader>k"
+  Default keymap prefix for which-key group.
+
+                                                     *kilo_code-opt-which_key.icons*
+which_key.icons ~
+  Type: table
+  Icons for which-key menu.
+  Default: {
+    group = "󰚩 ",
+    open = "󱂬 ",
+    close = "󰘪 ",
+    toggle = "󰔡 ",
+    install = "󰇚 ",
+    check = "󰄬 ",
+  }
 
 ==============================================================================
 4. COMMANDS                                             *kilo_code-commands*
@@ -255,15 +286,38 @@ kilo_code.sidebar ~
   - kilo_code.sidebar.toggle() - Toggle sidebar
   - kilo_code.sidebar.focus() - Focus sidebar
 
-                                                    *kilo_code.file_watcher*
+                                                     *kilo_code.file_watcher*
 kilo_code.file_watcher ~
   Access the file watcher module.
   - kilo_code.file_watcher.start() - Start file watcher
   - kilo_code.file_watcher.stop() - Stop file watcher
   - kilo_code.file_watcher.is_running() - Check if running
 
+                                                     *kilo_code.which_key*
+kilo_code.which_key ~
+  Access the which-key integration module.
+  - kilo_code.which_key.is_available() - Check if which-key is installed
+  - kilo_code.which_key.register() - Register keymaps with which-key
+  - kilo_code.which_key.setup() - Setup which-key integration
+
 ==============================================================================
-6. TROUBLESHOOTING                                 *kilo_code-troubleshooting*
+6. WHICH-KEY INTEGRATION                           *kilo_code-which-key*
+
+KiloCode.nvim automatically integrates with which-key.nvim if it's installed.
+This provides a convenient keymap menu for all KiloCode commands.
+
+Default keymaps (when enabled): ~
+  <leader>k    KiloCode group
+  <leader>ko   Open sidebar
+  <leader>kc   Close sidebar
+  <leader>kt   Toggle sidebar
+  <leader>ki   Install/Update CLI
+  <leader>ks   Check status
+
+To customize the prefix or disable integration, see |kilo_code-opt-which_key|.
+
+==============================================================================
+7. TROUBLESHOOTING                                 *kilo_code-troubleshooting*
 
 KiloCode CLI not found ~
   If auto-installation is disabled or fails, manually install: >

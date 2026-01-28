@@ -7,6 +7,7 @@ local install = require("kilo_code.install")
 local sidebar = require("kilo_code.sidebar")
 local file_watcher = require("kilo_code.file_watcher")
 local utils = require("kilo_code.utils")
+local which_key = require("kilo_code.which_key")
 
 --- Setup the KiloCode plugin
 ---@param opts table|nil User configuration options
@@ -26,6 +27,9 @@ function M.setup(opts)
   if config.get().file_watcher.enabled then
     file_watcher.start()
   end
+
+  -- Setup which-key integration
+  which_key.setup()
 end
 
 --- Open the KiloCode sidebar
@@ -79,5 +83,6 @@ M.sidebar = sidebar
 M.file_watcher = file_watcher
 M.install_module = install
 M.utils = utils
+M.which_key = which_key
 
 return M

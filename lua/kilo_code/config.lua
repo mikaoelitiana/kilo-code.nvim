@@ -31,6 +31,20 @@ local defaults = {
     args = {}, -- Additional CLI arguments
     env = {}, -- Environment variables
   },
+
+  -- Which-key integration settings
+  which_key = {
+    enabled = true, -- Enable which-key integration
+    prefix = "<leader>k", -- Default keymap prefix
+    icons = {
+      group = "󰚩 ",
+      open = "󱂬 ",
+      close = "󰘪 ",
+      toggle = "󰔡 ",
+      install = "󰇚 ",
+      check = "󰄬 ",
+    },
+  },
 }
 
 --- Current options
