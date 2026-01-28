@@ -1,0 +1,21 @@
+# Lua
+*.luac
+.luacheckcache
+
+# Testing
+luacov.*.out
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log

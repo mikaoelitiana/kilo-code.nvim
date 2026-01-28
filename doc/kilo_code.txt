@@ -1,0 +1,288 @@
+*kilo_code.txt*  KiloCode integration for Neovim
+
+Author:  Kilo-Code
+License: MIT
+
+==============================================================================
+CONTENTS                                              *kilo_code-contents*
+
+1. Introduction .......................... |kilo_code-introduction|
+2. Installation .......................... |kilo_code-installation|
+3. Configuration ......................... |kilo_code-configuration|
+4. Commands .............................. |kilo_code-commands|
+5. Lua API ............................... |kilo_code-lua-api|
+6. Troubleshooting ....................... |kilo_code-troubleshooting|
+
+==============================================================================
+1. INTRODUCTION                                       *kilo_code-introduction*
+
+KiloCode.nvim is a Neovim plugin that integrates KiloCode CLI into Neovim,
+providing a sidebar interface and automatic file change detection.
+
+Features:
+- Sidebar interface for KiloCode CLI
+- Automatic file change detection and reload
+- Auto-installation of KiloCode CLI
+- Configurable sidebar position and size
+- Zero external dependencies
+
+==============================================================================
+2. INSTALLATION                                       *kilo_code-installation*
+
+Requirements:
+- Neovim >= 0.7.0
+- KiloCode CLI (auto-installed if not found)
+- npm (for auto-installation)
+
+Using lazy.nvim: >
+  {
+    "Kilo-Code/kilo-code.nvim",
+    config = function()
+      require("kilo_code").setup()
+    end,
+  }
+<
+
+Using packer.nvim: >
+  use {
+    "Kilo-Code/kilo-code.nvim",
+    config = function()
+      require("kilo_code").setup()
+    end,
+  }
+<
+
+==============================================================================
+3. CONFIGURATION                                      *kilo_code-configuration*
+
+Default configuration: >
+  require("kilo_code").setup({
+    -- Installation settings
+    auto_install = true,
+    install_path = nil,
+
+    -- Sidebar settings
+    sidebar = {
+      position = "right",
+      width = 80,
+      height = nil,
+      auto_close = false,
+    },
+
+    -- File watcher settings
+    file_watcher = {
+      enabled = true,
+      auto_reload = true,
+      notify_on_change = true,
+      debounce_ms = 100,
+    },
+
+    -- KiloCode CLI settings
+    kilo_code = {
+      binary = "kilo-code",
+      args = {},
+      env = {},
+    },
+  })
+<
+
+Configuration options:
+
+                                                    *kilo_code-opt-auto_install*
+auto_install ~
+  Type: boolean
+  Default: true
+  Auto-install KiloCode CLI if not found.
+
+                                                    *kilo_code-opt-install_path*
+install_path ~
+  Type: string|nil
+  Default: nil
+  Custom installation path for KiloCode CLI.
+
+                                                    *kilo_code-opt-sidebar*
+sidebar ~
+  Type: table
+  Sidebar configuration.
+
+                                                    *kilo_code-opt-sidebar.position*
+sidebar.position ~
+  Type: string
+  Default: "right"
+  Sidebar position: "left" or "right".
+
+                                                    *kilo_code-opt-sidebar.width*
+sidebar.width ~
+  Type: number
+  Default: 80
+  Sidebar width in columns.
+
+                                                    *kilo_code-opt-sidebar.height*
+sidebar.height ~
+  Type: number|nil
+  Default: nil
+  Sidebar height in rows (nil = full height).
+
+                                                    *kilo_code-opt-sidebar.auto_close*
+sidebar.auto_close ~
+  Type: boolean
+  Default: false
+  Auto-close sidebar on buffer switch.
+
+                                                    *kilo_code-opt-file_watcher*
+file_watcher ~
+  Type: table
+  File watcher configuration.
+
+                                                    *kilo_code-opt-file_watcher.enabled*
+file_watcher.enabled ~
+  Type: boolean
+  Default: true
+  Enable file change detection.
+
+                                                    *kilo_code-opt-file_watcher.auto_reload*
+file_watcher.auto_reload ~
+  Type: boolean
+  Default: true
+  Auto-reload changed buffers.
+
+                                                    *kilo_code-opt-file_watcher.notify_on_change*
+file_watcher.notify_on_change ~
+  Type: boolean
+  Default: true
+  Show notification on external changes.
+
+                                                    *kilo_code-opt-file_watcher.debounce_ms*
+file_watcher.debounce_ms ~
+  Type: number
+  Default: 100
+  Debounce time for file events in milliseconds.
+
+                                                    *kilo_code-opt-kilo_code*
+kilo_code ~
+  Type: table
+  KiloCode CLI configuration.
+
+                                                    *kilo_code-opt-kilo_code.binary*
+kilo_code.binary ~
+  Type: string
+  Default: "kilo-code"
+  Binary name or path.
+
+                                                    *kilo_code-opt-kilo_code.args*
+kilo_code.args ~
+  Type: table
+  Default: {}
+  Additional CLI arguments.
+
+                                                    *kilo_code-opt-kilo_code.env*
+kilo_code.env ~
+  Type: table
+  Default: {}
+  Environment variables.
+
+==============================================================================
+4. COMMANDS                                             *kilo_code-commands*
+
+                                                    *:KiloCodeOpen*
+:KiloCodeOpen
+  Open the KiloCode sidebar.
+
+                                                    *:KiloCodeClose*
+:KiloCodeClose
+  Close the KiloCode sidebar.
+
+                                                    *:KiloCodeToggle*
+:KiloCodeToggle
+  Toggle the KiloCode sidebar.
+
+                                                    *:KiloCodeInstall*
+:KiloCodeInstall
+  Install or update KiloCode CLI.
+
+                                                    *:KiloCodeCheck*
+:KiloCodeCheck
+  Check KiloCode installation status.
+
+==============================================================================
+5. LUA API                                               *kilo_code-lua-api*
+
+                                                    *kilo_code.setup()*
+kilo_code.setup({opts}) ~
+  Initialize the plugin with configuration options.
+  Parameters:
+    {opts} - Configuration table (optional)
+
+                                                    *kilo_code.open_sidebar()*
+kilo_code.open_sidebar() ~
+  Open the KiloCode sidebar.
+
+                                                    *kilo_code.close_sidebar()*
+kilo_code.close_sidebar() ~
+  Close the KiloCode sidebar.
+
+                                                    *kilo_code.toggle_sidebar()*
+kilo_code.toggle_sidebar() ~
+  Toggle the KiloCode sidebar.
+
+                                                    *kilo_code.is_installed()*
+kilo_code.is_installed() ~
+  Check if KiloCode CLI is installed.
+  Returns: boolean
+
+                                                    *kilo_code.install()*
+kilo_code.install() ~
+  Install or update KiloCode CLI.
+
+                                                    *kilo_code.get_version()*
+kilo_code.get_version() ~
+  Get the installed KiloCode version.
+  Returns: string|nil
+
+Submodules:
+
+                                                    *kilo_code.config*
+kilo_code.config ~
+  Access the configuration module.
+  - kilo_code.config.get() - Get current configuration
+
+                                                    *kilo_code.sidebar*
+kilo_code.sidebar ~
+  Access the sidebar module.
+  - kilo_code.sidebar.is_open() - Check if sidebar is open
+  - kilo_code.sidebar.open() - Open sidebar
+  - kilo_code.sidebar.close() - Close sidebar
+  - kilo_code.sidebar.toggle() - Toggle sidebar
+  - kilo_code.sidebar.focus() - Focus sidebar
+
+                                                    *kilo_code.file_watcher*
+kilo_code.file_watcher ~
+  Access the file watcher module.
+  - kilo_code.file_watcher.start() - Start file watcher
+  - kilo_code.file_watcher.stop() - Stop file watcher
+  - kilo_code.file_watcher.is_running() - Check if running
+
+==============================================================================
+6. TROUBLESHOOTING                                 *kilo_code-troubleshooting*
+
+KiloCode CLI not found ~
+  If auto-installation is disabled or fails, manually install: >
+    npm install -g kilo-code
+<
+
+File changes not detected ~
+  Ensure file watcher is enabled: >
+    require("kilo_code").setup({
+      file_watcher = {
+        enabled = true,
+      },
+    })
+<
+
+Sidebar not opening ~
+  Check installation status: >
+    :KiloCodeCheck
+<
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
