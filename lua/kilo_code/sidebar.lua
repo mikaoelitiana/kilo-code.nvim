@@ -54,7 +54,15 @@ function M.open()
   -- Start terminal if not already running
   if not state.job_id then
     local binary = config.get().kilo_code.binary
-    local args = config.get().kilo_code.args or {}
+    local args = vim.deepcopy(config.get().kilo_code.args or {})
+
+    -- Add theme argument if theme configuration is present
+    local theme_config = config.get().theme
+    if theme_config then
+      local effective_theme = utils.get_effective_theme(theme_config)
+      table.insert(args, "--theme=" .. effective_theme)
+    end
+
     local cmd = binary .. " " .. table.concat(args, " ")
 
     -- Set environment variables before starting terminal

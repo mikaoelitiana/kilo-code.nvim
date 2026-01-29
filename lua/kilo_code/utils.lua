@@ -70,4 +70,87 @@ function M.is_windows()
   return M.get_os() == "Windows_NT"
 end
 
+--- Detect the system theme (dark or light mode)
+--- Uses macOS defaults on Darwin, gsettings on Linux, and registry on Windows
+---@return "dark"|"light"|nil The detected theme, or nil if detection failed
+function M.detect_system_theme()
+  local os_name = M.get_os()
+
+  if os_name == "Darwin" then
+    -- macOS: Use defaults command to check AppleInterfaceStyle
+    local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+      if result and result:match("Dark") then
+        return "dark"
+      else
+        return "light"
+      end
+    end
+  elseif os_name == "Linux" then
+    -- Linux: Try gsettings (GNOME/GTK) first, then xdg-desktop-portal
+    local handle = io.popen("gsettings get org.gnome.desktop.interface gtk-theme 2>/dev/null")
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+      if result and (result:lower():match("dark") or result:lower():match("black")) then
+        return "dark"
+      elseif result then
+        return "light"
+      end
+    end
+
+    -- Fallback: Try xdg-desktop-portal
+    handle = io.popen(
+      'dbus-send --session --print-reply --dest=org.freedesktop.portal.Desktop /org/freedesktop/portal/desktop org.freedesktop.portal.Settings.Read string:org.freedesktop.appearance string:color-scheme 2>/dev/null | grep -q "uint32 1" && echo "dark" || echo "light"'
+    )
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+      result = result:gsub("%s+", "")
+      if result == "dark" then
+        return "dark"
+      elseif result == "light" then
+        return "light"
+      end
+    end
+  elseif os_name == "Windows_NT" then
+    -- Windows: Check registry for AppsUseLightTheme
+    local handle = io.popen(
+      'reg query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize" /v AppsUseLightTheme 2>nul | findstr /C:"0x0"'
+    )
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+      if result and result ~= "" then
+        return "dark"
+      else
+        return "light"
+      end
+    end
+  end
+
+  return nil
+end
+
+--- Get the theme to use based on configuration and system detection
+---@param theme_config table Theme configuration from config
+---@return string The theme value to pass to KiloCode CLI
+function M.get_effective_theme(theme_config)
+  theme_config = theme_config or {}
+
+  if theme_config.auto_detect ~= false then
+    local system_theme = M.detect_system_theme()
+    if system_theme == "dark" then
+      return theme_config.dark or "dark"
+    elseif system_theme == "light" then
+      return theme_config.light or "light"
+    end
+  end
+
+  -- Default to dark theme if auto-detection is disabled or failed
+  return theme_config.dark or "dark"
+end
+
 return M

@@ -34,6 +34,13 @@ local defaults = {
     env = {}, -- Environment variables
   },
 
+  -- Theme settings
+  theme = {
+    auto_detect = true, -- Auto-detect system theme (dark/light)
+    dark = "dark", -- Theme to use in dark mode
+    light = "light", -- Theme to use in light mode
+  },
+
   -- Which-key integration settings
   which_key = {
     enabled = true, -- Enable which-key integration

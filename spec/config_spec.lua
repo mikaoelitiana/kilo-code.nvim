@@ -18,6 +18,10 @@ describe("config", function()
       assert.is_true(opts.file_watcher.enabled)
       assert.is_true(opts.file_watcher.auto_reload)
       assert.equals("kilocode", opts.kilo_code.binary)
+      -- Theme defaults
+      assert.is_true(opts.theme.auto_detect)
+      assert.equals("dark", opts.theme.dark)
+      assert.equals("light", opts.theme.light)
     end)
 
     it("should merge user options with defaults", function()
@@ -67,6 +71,36 @@ describe("config", function()
       local opts = config.get()
 
       assert.is_true(opts.auto_install)
+    end)
+  end)
+
+  describe("theme configuration", function()
+    it("should accept custom theme settings", function()
+      config.setup({
+        theme = {
+          auto_detect = false,
+          dark = "my-dark",
+          light = "my-light",
+        },
+      })
+      local opts = config.get()
+
+      assert.is_false(opts.theme.auto_detect)
+      assert.equals("my-dark", opts.theme.dark)
+      assert.equals("my-light", opts.theme.light)
+    end)
+
+    it("should deeply merge theme settings", function()
+      config.setup({
+        theme = {
+          dark = "custom-dark",
+        },
+      })
+      local opts = config.get()
+
+      assert.equals("custom-dark", opts.theme.dark)
+      assert.is_true(opts.theme.auto_detect) -- Should remain default
+      assert.equals("light", opts.theme.light) -- Should remain default
     end)
   end)
 end)
