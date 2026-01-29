@@ -1,3 +1,4 @@
+rockspec_format = "3.0"
 package = "kilo-code"
 version = "scm-1"
 source = {
